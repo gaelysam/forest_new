@@ -1,6 +1,6 @@
 -- 3D noises
 
-local np_n1 = {
+local np_cave1 = {
 	offset = 0,
 	scale = 1,
 	spread = {x=30, y=30, z=30},
@@ -9,7 +9,7 @@ local np_n1 = {
 	persist = 0.6
 }
 
-local np_n2 = {
+local np_cave2 = {
 	offset = 0,
 	scale = 1,
 	spread = {x=30, y=30, z=30},
@@ -18,7 +18,7 @@ local np_n2 = {
 	persist = 0.6
 }
 
-local np_n3 = {
+local np_cave3 = {
 	offset = 0,
 	scale = 1,
 	spread = {x=30, y=30, z=30},
@@ -27,7 +27,7 @@ local np_n3 = {
 	persist = 0.6
 }
 
-local np_n4 = {
+local np_cave4 = {
 	offset = 0,
 	scale = 1,
 	spread = {x=150, y=150, z=150},
@@ -85,7 +85,7 @@ local np_n9 = {
 
 -- elevation noises
 
-local np_n1e = {
+local np_valleys_1a = {
 	offset = 0,
 	scale = 1,
 	spread = {x=50, y=50, z=50},
@@ -94,7 +94,7 @@ local np_n1e = {
 	persist = 0.2
 }
 
-local np_n2e = {
+local np_valleys_1b = {
 	offset = 0,
 	scale = 1,
 	spread = {x=50, y=50, z=50},
@@ -103,7 +103,7 @@ local np_n2e = {
 	persist = 0.2
 }
 
-local np_n3e = {
+local np_valleys_2a = {
 	offset = 0,
 	scale = 1,
 	spread = {x=25, y=25, z=25},
@@ -112,7 +112,7 @@ local np_n3e = {
 	persist = 0.2
 }
 
-local np_n4e = {
+local np_valleys_2b = {
 	offset = 0,
 	scale = 1,
 	spread = {x=25, y=25, z=25},
@@ -121,7 +121,7 @@ local np_n4e = {
 	persist = 0.2
 }
 
-local np_n5e = {
+local np_valleys_3a = {
 	offset = 0,
 	scale = 1,
 	spread = {x=10, y=10, z=10},
@@ -130,7 +130,7 @@ local np_n5e = {
 	persist = 0.2
 }
 
-local np_n6e = {
+local np_valleys_3b = {
 	offset = 0,
 	scale = 1,
 	spread = {x=10, y=10, z=10},
@@ -139,7 +139,7 @@ local np_n6e = {
 	persist = 0.2
 }
 
-local np_n7e = {
+local np_valleys_depth = {
 	offset = 0,
 	scale = 1,
 	spread = {x=300, y=300, z=300},
@@ -148,7 +148,7 @@ local np_n7e = {
 	persist = 0.2
 }
 
-local np_n8e = {
+local np_terrain_height = {
 	offset = 0,
 	scale = 1,
 	spread = {x=400, y=400, z=400},
@@ -203,10 +203,10 @@ minetest.register_on_generated(function(minp, maxp)
 	local minposxyz = {x=x0, y=y0, z=z0}
 	local minposxz = {x=x0, y=z0}
 	-- 3D noises
-	local nvals_n1 = minetest.get_perlin_map(np_n1, chulens):get3dMap_flat(minposxyz)
-	local nvals_n2 = minetest.get_perlin_map(np_n2, chulens):get3dMap_flat(minposxyz)
-	local nvals_n3 = minetest.get_perlin_map(np_n3, chulens):get3dMap_flat(minposxyz)
-	local nvals_n4 = minetest.get_perlin_map(np_n4, chulens):get3dMap_flat(minposxyz)
+	local nvals_cave1 = minetest.get_perlin_map(np_cave1, chulens):get3dMap_flat(minposxyz)
+	local nvals_cave2 = minetest.get_perlin_map(np_cave2, chulens):get3dMap_flat(minposxyz)
+	local nvals_cave3 = minetest.get_perlin_map(np_cave3, chulens):get3dMap_flat(minposxyz)
+	local nvals_cave4 = minetest.get_perlin_map(np_cave4, chulens):get3dMap_flat(minposxyz)
 	-- 2D noises
 	--local nvals_n5 = minetest.get_perlin_map(np_n5, chulens):get2dMap_flat(minposxz)
 	--local nvals_n6 = minetest.get_perlin_map(np_n6, chulens):get2dMap_flat(minposxz)
@@ -214,41 +214,40 @@ minetest.register_on_generated(function(minp, maxp)
 	--local nvals_n8 = minetest.get_perlin_map(np_n8, chulens):get2dMap_flat(minposxz)
 	--local nvals_n9 = minetest.get_perlin_map(np_n9, chulens):get2dMap_flat(minposxz)
 	-- elevation 2D noises
-	local nvals_n1e = minetest.get_perlin_map(np_n1e, chulens):get2dMap_flat(minposxz)
-	local nvals_n2e = minetest.get_perlin_map(np_n2e, chulens):get2dMap_flat(minposxz)
-	local nvals_n3e = minetest.get_perlin_map(np_n3e, chulens):get2dMap_flat(minposxz)
-	local nvals_n4e = minetest.get_perlin_map(np_n4e, chulens):get2dMap_flat(minposxz)
-	local nvals_n5e = minetest.get_perlin_map(np_n5e, chulens):get2dMap_flat(minposxz)
-	local nvals_n6e = minetest.get_perlin_map(np_n6e, chulens):get2dMap_flat(minposxz)
-	local nvals_n7e = minetest.get_perlin_map(np_n7e, chulens):get2dMap_flat(minposxz)
-	local nvals_n8e = minetest.get_perlin_map(np_n8e, chulens):get2dMap_flat(minposxz)
+	local nvals_valleys_1a = minetest.get_perlin_map(np_valleys_1a, chulens):get2dMap_flat(minposxz)
+	local nvals_valleys_1b = minetest.get_perlin_map(np_valleys_1b, chulens):get2dMap_flat(minposxz)
+	local nvals_valleys_2a = minetest.get_perlin_map(np_valleys_2a, chulens):get2dMap_flat(minposxz)
+	local nvals_valleys_2b = minetest.get_perlin_map(np_valleys_2b, chulens):get2dMap_flat(minposxz)
+	local nvals_valleys_3a = minetest.get_perlin_map(np_valleys_3a, chulens):get2dMap_flat(minposxz)
+	local nvals_valleys_3b = minetest.get_perlin_map(np_valleys_3b, chulens):get2dMap_flat(minposxz)
+	local nvals_valleys_depth = minetest.get_perlin_map(np_valleys_depth, chulens):get2dMap_flat(minposxz)
+	local nvals_terrain_height = minetest.get_perlin_map(np_terrain_height, chulens):get2dMap_flat(minposxz)
 	
 	local nixz = 1 -- 2D noise index
 	for z = minp.z, maxp.z do
 	for x = minp.x, maxp.x do
-		local n1 = nvals_n1e[nixz]
-		local n2 = nvals_n2e[nixz]
-		local n3 = nvals_n3e[nixz]
-		local n4 = nvals_n4e[nixz]
-		local n5 = nvals_n5e[nixz]
-		local n6 = nvals_n6e[nixz]
-		local n7 = nvals_n7e[nixz]
-		local n8 = nvals_n8e[nixz]
-		local v1 = math.abs(n1 - n2) * math.abs(n7)
-		local v2 = math.sqrt(v1 * math.abs(n3 - n4)) * math.abs(n7)
-		local v3 = math.sqrt(v2 * math.abs(n5 - n6)) * math.abs(n7)
-		v1 = v1 + v1 * n8
-		v2 = v2 + v2 * n8
-		v3 = v3 + v3 * n8
-		local elevation = v1 * 20 + v2 * 15 + v3 * 10 + n8 * 50
+		local valleys1a = nvals_valleys_1a[nixz]
+		local valleys1b = nvals_valleys_1b[nixz]
+		local valleys2a = nvals_valleys_2a[nixz]
+		local valleys2b = nvals_valleys_2b[nixz]
+		local valleys3a = nvals_valleys_3a[nixz]
+		local valleys3b = nvals_valleys_3b[nixz]
+		local valleys_depth = math.abs(nvals_valleys_depth[nixz])
+		local terrain_height = nvals_terrain_height[nixz]
+
+		local valleys1 = math.abs(valleys1a - valleys1b) * valleys_depth
+		local valleys2 = math.sqrt(valleys1 * math.abs(valleys2a - valleys2b)) * valleys_depth
+		local valleys3 = math.sqrt(valleys2 * math.abs(valleys3a - valleys3b)) * valleys_depth
+		local c = terrain_height + 1
+		local elevation = (valleys1*20 + valleys2*15 + valleys3*10) * c + terrain_height * 50
 		if elevation < 0 then
 			elevation = -2 * math.sqrt(-elevation)
 		end
 		elevation = math.floor(elevation + 0.5)
 
-		local ground1 = c_grass
-		local ground2 = c_dirt
-		local ground3 = c_stone
+		local top = c_grass
+		local fill = c_dirt
+		local stone = c_stone
 		
 		--[[if math.max(elevation, 1) >= minp.y then
 			n5v = nvals_n5[nixz]
@@ -381,25 +380,21 @@ minetest.register_on_generated(function(minp, maxp)
 			for y = minp.y, math.min(math.max(elevation, 1), maxp.y) do
 				local pos = area:index(x, y, z) -- LVM index for node
 				local nixyz = (z - z0) * 6400 + (y - y0) * 80 + (x - x0) + 1 -- noise index for node
-				local n1v = nvals_n1[nixyz]
-				local n2v = nvals_n2[nixyz]
-				local n3v = nvals_n3[nixyz]
-				local n4v = nvals_n4[nixyz]
+				local cave1 = nvals_cave1[nixyz]
+				local cave2 = nvals_cave2[nixyz]
+				local cave3 = nvals_cave3[nixyz]
+				local cave4 = nvals_cave4[nixyz]
 				local node
 				if y == elevation then
-					if elevation >= 1 then
-						node = ground1
-					else
-						node = ground2
-					end
+					node = elevation >= 1 and top or fill
 				elseif y > elevation then
 					node = c_water
 				elseif y + math.random(2, 6) >= elevation then
-					node = ground2
+					node = fill
 				else
-					node = ground3
+					node = stone
 				end
-				if math.max(n1v, n2v, n3v) - math.min(n1v, n2v, n3v) > n4v / 5 or node == c_water then
+				if math.max(cave1, cave2, cave3) - math.min(cave1, cave2, cave3) > cave4 / 5 or node == c_water then
 					data[pos] = node
 				end
 			end
