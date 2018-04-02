@@ -157,8 +157,51 @@ local np_terrain_height = {
 	persist = 0.2
 }
 
+local data = {}
+
+local first_mapgen = true
+
+local nobj_cave1, nobj_cave2, nobj_cave3, nobj_cave4
+local nobj_valleys_1a, nobj_valleys_1b
+local nobj_valleys_2a, nobj_valleys_2b
+local nobj_valleys_3a, nobj_valleys_3b
+local nobj_valleys_depth
+local nobj_terrain_height
+
+local function initialize(chulens)
+	first_mapgen = false
+
+	nobj_cave1 = minetest.get_perlin_map(np_cave1, chulens)
+	nobj_cave2 = minetest.get_perlin_map(np_cave2, chulens)
+	nobj_cave3 = minetest.get_perlin_map(np_cave3, chulens)
+	nobj_cave4 = minetest.get_perlin_map(np_cave4, chulens)
+	nobj_valleys_1a = minetest.get_perlin_map(np_valleys_1a, chulens)
+	nobj_valleys_1b = minetest.get_perlin_map(np_valleys_1b, chulens)
+	nobj_valleys_2a = minetest.get_perlin_map(np_valleys_2a, chulens)
+	nobj_valleys_2b = minetest.get_perlin_map(np_valleys_2b, chulens)
+	nobj_valleys_3a = minetest.get_perlin_map(np_valleys_3a, chulens)
+	nobj_valleys_3b = minetest.get_perlin_map(np_valleys_3b, chulens)
+	nobj_valleys_depth = minetest.get_perlin_map(np_valleys_depth, chulens)
+	nobj_terrain_height = minetest.get_perlin_map(np_terrain_height, chulens)
+end
+
+
+local nvals_cave1 = {}
+local nvals_cave2 = {}
+local nvals_cave3 = {}
+local nvals_cave4 = {}
+
+local nvals_valleys_1a = {}
+local nvals_valleys_1b = {}
+local nvals_valleys_2a = {}
+local nvals_valleys_2b = {}
+local nvals_valleys_3a = {}
+local nvals_valleys_3b = {}
+local nvals_valleys_depth = {}
+local nvals_terrain_height = {}
+
 minetest.register_on_generated(function(minp, maxp)
-	
+
 	local t0 = os.clock()
 	local x1 = maxp.x
 	local y1 = maxp.y
@@ -166,6 +209,15 @@ minetest.register_on_generated(function(minp, maxp)
 	local x0 = minp.x
 	local y0 = minp.y
 	local z0 = minp.z
+
+	-- perlinmap stuff
+	local sidelen = x1 - x0 + 1
+	local chulens = {x=sidelen, y=sidelen, z=sidelen}
+	local minp2d = {x=x0, y=z0}
+
+	if first_mapgen then
+		initialize(chulens)
+	end
 	
 	print ("[forest] Generating map from "..minetest.pos_to_string(minp).." to "..minetest.pos_to_string(maxp))
 	
@@ -195,33 +247,28 @@ minetest.register_on_generated(function(minp, maxp)
 	-- LVM stuff
 	local manip, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local area = VoxelArea:new({MinEdge = emin, MaxEdge = emax})
-	local data = manip:get_data()
-	
-	-- perlinmap stuff
-	local sidelen = x1 - x0 + 1
-	local chulens = {x=sidelen, y=sidelen, z=sidelen}
-	local minposxyz = {x=x0, y=y0, z=z0}
-	local minposxz = {x=x0, y=z0}
+	manip:get_data(data)
+
 	-- 3D noises
-	local nvals_cave1 = minetest.get_perlin_map(np_cave1, chulens):get3dMap_flat(minposxyz)
-	local nvals_cave2 = minetest.get_perlin_map(np_cave2, chulens):get3dMap_flat(minposxyz)
-	local nvals_cave3 = minetest.get_perlin_map(np_cave3, chulens):get3dMap_flat(minposxyz)
-	local nvals_cave4 = minetest.get_perlin_map(np_cave4, chulens):get3dMap_flat(minposxyz)
+	nobj_cave1:get3dMap_flat(minp, nvals_cave1)
+	nobj_cave2:get3dMap_flat(minp, nvals_cave2)
+	nobj_cave3:get3dMap_flat(minp, nvals_cave3)
+	nobj_cave4:get3dMap_flat(minp, nvals_cave4)
 	-- 2D noises
-	--local nvals_n5 = minetest.get_perlin_map(np_n5, chulens):get2dMap_flat(minposxz)
-	--local nvals_n6 = minetest.get_perlin_map(np_n6, chulens):get2dMap_flat(minposxz)
-	--local nvals_n7 = minetest.get_perlin_map(np_n7, chulens):get2dMap_flat(minposxz)
-	--local nvals_n8 = minetest.get_perlin_map(np_n8, chulens):get2dMap_flat(minposxz)
-	--local nvals_n9 = minetest.get_perlin_map(np_n9, chulens):get2dMap_flat(minposxz)
+	--local nvals_n5 = minetest.get_perlin_map(np_n5, chulens):get2dMap_flat(minp2d)
+	--local nvals_n6 = minetest.get_perlin_map(np_n6, chulens):get2dMap_flat(minp2d)
+	--local nvals_n7 = minetest.get_perlin_map(np_n7, chulens):get2dMap_flat(minp2d)
+	--local nvals_n8 = minetest.get_perlin_map(np_n8, chulens):get2dMap_flat(minp2d)
+	--local nvals_n9 = minetest.get_perlin_map(np_n9, chulens):get2dMap_flat(minp2d)
 	-- elevation 2D noises
-	local nvals_valleys_1a = minetest.get_perlin_map(np_valleys_1a, chulens):get2dMap_flat(minposxz)
-	local nvals_valleys_1b = minetest.get_perlin_map(np_valleys_1b, chulens):get2dMap_flat(minposxz)
-	local nvals_valleys_2a = minetest.get_perlin_map(np_valleys_2a, chulens):get2dMap_flat(minposxz)
-	local nvals_valleys_2b = minetest.get_perlin_map(np_valleys_2b, chulens):get2dMap_flat(minposxz)
-	local nvals_valleys_3a = minetest.get_perlin_map(np_valleys_3a, chulens):get2dMap_flat(minposxz)
-	local nvals_valleys_3b = minetest.get_perlin_map(np_valleys_3b, chulens):get2dMap_flat(minposxz)
-	local nvals_valleys_depth = minetest.get_perlin_map(np_valleys_depth, chulens):get2dMap_flat(minposxz)
-	local nvals_terrain_height = minetest.get_perlin_map(np_terrain_height, chulens):get2dMap_flat(minposxz)
+	nobj_valleys_1a:get2dMap_flat(minp2d, nvals_valleys_1a)
+	nobj_valleys_1b:get2dMap_flat(minp2d, nvals_valleys_1b)
+	nobj_valleys_2a:get2dMap_flat(minp2d, nvals_valleys_2a)
+	nobj_valleys_2b:get2dMap_flat(minp2d, nvals_valleys_2b)
+	nobj_valleys_3a:get2dMap_flat(minp2d, nvals_valleys_3a)
+	nobj_valleys_3b:get2dMap_flat(minp2d, nvals_valleys_3b)
+	nobj_valleys_depth:get2dMap_flat(minp2d, nvals_valleys_depth)
+	nobj_terrain_height:get2dMap_flat(minp2d, nvals_terrain_height)
 	
 	local nixz = 1 -- 2D noise index
 	for z = minp.z, maxp.z do
